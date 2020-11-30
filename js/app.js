@@ -58,3 +58,37 @@ async function fetchData(event) {
         throw new Error(message);
     } 
 }
+
+
+// DROPDOWN LIST FOR MOVIE/SERIE/GAME
+
+let dropDown = document.getElementById('choose');
+dropDown.addEventListener('change', fetchType);
+
+async function fetchType() {
+    
+     try {
+     let response = await fetch('http://www.omdbapi.com/?apikey=73d6e680&s=' + inputSearch.value + '&type=' + dropDown.value)
+     let data = await response.json();
+     console.log(data);
+    
+   let html = '';
+    
+ for(let type of data['Search']) {
+         html += '<div id="iron">';
+ 
+         html += `<img class="img" scr="${type.Poster}">`;
+         html += `<p>${type.Title}<p>`;
+         html += `<p>${type.Type}<p>`;
+         html += `<p>${type.Year}<p>`;
+         //html += `<p>${type.imdbID}<p>`;
+         
+        html += '</div>';
+      }
+     
+      container.innerHTML = html;
+
+  }catch(message) {
+         throw new Error(message);
+     }
+ }
